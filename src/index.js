@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const assert = require("assert");
-const uri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOADDRESS}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOURL}?retryWrites=true&w=majority`;
 const MongoClient = require("mongodb").MongoClient;
 
 const app = express();
@@ -34,7 +34,7 @@ async function run(limit) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.get("/movies", (req, res) => {
+app.get("/list", (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 100;
   run(limit)
     .then((d) => res.json(d))
