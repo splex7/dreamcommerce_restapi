@@ -22,14 +22,18 @@ async function run(limit) {
     return;
   }
 
-  console.log("connected...");
+  console.log("MongoClient Succesfully Connected...");
   const collection = client.db("dream").collection("crawls");
   const query = { createdAt: { $exists: true } };
-  return await collection
+
+  const result = await collection
     .find(query)
     .sort({ createdAt: -1 })
     .limit(limit)
     .toArray();
+  client.close();
+  console.log(`MongoClient Closed :: We've got ${result.length} items`);
+  return result;
 }
 
 app.use(bodyParser.json());
